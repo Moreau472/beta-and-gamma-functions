@@ -37,3 +37,10 @@ The trade-off is precision and branch-cut sophistication: the Lanczos approximat
 The complex log-gamma is multi-valued. This library returns the **principal value**, which means the imaginary part of the internal computation can jump discontinuously across the negative real axis. `lgamma` sidesteps this by returning only the real part (the log-modulus), which is single-valued away from the poles. If you need the full complex `loggamma` with a specific branch, this library does not expose that — use SciPy.
 
 At non-positive integers (`0, -1, -2, ...`) the gamma function has simple poles, and all three functions raise `ValueError`.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
